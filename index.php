@@ -7,7 +7,10 @@
  */
 
 require_once 'vendor/autoload.php';
-include '../../../errors.php';
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 
 $f3 = Base::instance();
