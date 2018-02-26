@@ -1,0 +1,21 @@
+{
+  "name": "Keyboard Project",
+  "authors": [
+    {
+      "name": "Adrian Smith",
+      "email": "adriansmith5796@gmail.com",
+      "homepage": "asmith.greenriverdev.com"
+    },
+    {
+      "name":"James McPherson",
+      "email":"jmcpherson@mail.greenriver.edu",
+      "homepage": "jmcpherson.greenriverdev.com"
+    }
+  ],
+  "require": {
+    "bcosca/fatfree-core": "dev-master"
+  },
+  "autoload": {
+    "classmap": ["model/"]
+  }
+}
