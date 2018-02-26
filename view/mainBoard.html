@@ -1,0 +1,20 @@
+<include href="view/header.html" />
+    <div class = "container">
+        <repeat group="{{ @octaves }}" value = "{{ @octave }}">
+            <div class = "row">
+
+                <repeat group = "{{@notes}}" value = "{{ @note }}">
+                    <div class = "col-sm-1">
+                        <check if='{{ substr(@note, -1) == "#"}}'>
+                            <true><button type = "button" class = "btn btn-dark">{{@note}}</button></true>
+                            <false><button type = "button" class = "btn btn-light">{{@note}}</button></false>
+
+                        </check>
+
+                    </div>
+                </repeat>
+            </div>
+        </repeat>
+    </div>
+
+<include href="view/footer.html" />
