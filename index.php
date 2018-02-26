@@ -61,4 +61,17 @@ $f3->route('GET /login', function(){
     echo $template->render('view/header.html');
 });
 
+$f3->route('GET|POST /keyboard', function($f3){
+
+    $octaves = array(1 => "first", 2=>"second",3=>"third",4=>"fourth",5=>"fifth",6=>"sixth",7=>"seventh",8=>"eighth");
+    $notes = array(0 =>"C",1 =>"C#",2 =>"D",3 =>"D#",4 =>"E",5 =>"F",6 =>"F#",7 =>"G",8 =>"G#",9 =>"A",10 =>"A#",11 =>"B");
+
+    $f3->set('octaves', $octaves);
+    $f3->set('notes', $notes);
+
+    $template = new Template();
+    echo $template->render('view/mainBoard.html');
+
+});
+
 $f3->run();

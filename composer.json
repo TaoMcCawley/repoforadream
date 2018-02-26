@@ -1,0 +1,13 @@
+{
+  "name":"jmcphers/repo",
+  "authors":[
+    {
+      "name":"James McPherson",
+      "email":"jmcpherson@mail.greenriver.edu"
+    }
+  ],
+  "require":{
+    "bcosca/fatfree-core":"dev-master"
+  }
+
+}
