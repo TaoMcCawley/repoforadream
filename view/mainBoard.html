@@ -13,8 +13,8 @@
                         <script>
                             var piano = Synth.createInstrument('piano');
 
-                            var octave = "" + {{@octave}};
-                            var note = "" +{{@note}};
+                            var octave = "{{@octave}}";
+                            var note = "{{@note}}";
 
                             $(octave + note).click(function() {
                                 alert("MEH");
