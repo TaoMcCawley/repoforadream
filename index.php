@@ -32,15 +32,15 @@ $f3->route('GET|POST /', function($f3){
         if($password !== $_POST['retype']) {
             $user->addError('retype', ' * Password entries must match.');
         }
-        if (!$dbh->exists($user)){
+        if (!$dbh->exists($user) && !$user->hasErrors()){
             $dbh->signup($user);
             $_SESSION['user'] = $user;
-            $f3->reroute('login');
+            $f3->reroute('/login');
         }else{
-            if($dbh->checkEmail($user)) {
+            if($dbh->emailExists($user)) {
                 $user->addError('duplicateEmail', 'An account with that email already exists.');
             }
-            if($dbh->checkUsername($user)){
+            if($dbh->usernameExists($user)){
                 $user->addError('duplicateUsername', 'An account with that username already exists.');
             }
         }
