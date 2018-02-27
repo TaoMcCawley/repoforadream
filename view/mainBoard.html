@@ -1,15 +1,27 @@
 <include href="view/header.html" />
+<script src="../assets/audiosynth.js"></script>
     <div class = "container">
         <repeat group="{{ @octaves }}" value = "{{ @octave }}">
             <div class = "row">
 
                 <repeat group = "{{@notes}}" value = "{{ @note }}">
-                    <div class = "col-sm-1">
-                        <check if='{{ substr(@note, -1) == "#"}}'>
-                            <true><button type = "button" class = "btn btn-dark">{{@note}}</button></true>
-                            <false><button type = "button" class = "btn btn-light">{{@note}}</button></false>
-
+                    <div class = "col-sm-1" style = "margin: 0px 0px 0px 0px;">
+                        <check if='{{ substr(@note, -1) == "#"}}'> <!--If the key is sharp -->
+                            <true><button type = "button" class = "btn btn-dark" style = " width: 100%; margin: 0px 0px 0px 0px;" id = "{{@octave . @note}}">{{@note}}</button></true>
+                            <false><button type = "button" class = "btn btn-light" style = " width: 100%; margin: 0px 0px 0px 0px;" id = "{{@octave . @note}}">{{@note}}</button></false>
                         </check>
+                        <script>
+                            var piano = Synth.createInstrument('piano');
+
+                            var octave = "" + {{@octave}};
+                            var note = "" +{{@note}};
+
+                            $(octave + note).click(function() {
+                                alert("MEH");
+                                piano.play(octave, note, 1);
+                            });
+                        </script>
+
 
                     </div>
                 </repeat>
