@@ -16,9 +16,9 @@
                             var octave = "{{@octave}}";
                             var note = "{{@note}}";
 
-                            $(octave + note).click(function() {
+                            $("#" + octave + note).click(function() {
                                 alert("MEH");
-                                piano.play(octave, note, 1);
+                                piano.play(note, octave, 1);
                             });
                         </script>
 
