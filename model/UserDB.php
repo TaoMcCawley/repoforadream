@@ -35,7 +35,7 @@ class UserDB
      */
     function signup($user)
     {
-        if($user->getErrors() == null) {
+        if($user->getErrors() === null) {
             $sql = "INSERT INTO USERS (username, password, name, email) VALUES (:username, :password, :name, :email)";
 
             $stmt = $this->_dbh->prepare($sql);
@@ -60,7 +60,7 @@ class UserDB
      */
     function exists($user)
     {
-        return $this->checkUsername($user) && $this->checkEmail($user);
+        return $this->usernameExists($user) && $this->emailExists($user);
     }
 
     /**
@@ -68,16 +68,17 @@ class UserDB
      * @param $user User object
      * @return bool true if the table already contains the username
      */
-    function checkUsername($user)
+    function usernameExists($user)
     {
         $sql = "SELECT * FROM USERS WHERE username = :username";
         $stmt = $this->_dbh->prepare($sql);
 
-        $stmt->bindParam(':username', $user->getUsername());
+        $name = $user->getUsername();
+        $stmt->bindParam(':username', $name);
 
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC) != null;
+        return !empty($stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 
     /**
@@ -85,15 +86,16 @@ class UserDB
      * @param $user User object
      * @return bool true if the table already contains the email
      */
-    function checkEmail($user)
+    function emailExists($user)
     {
         $sql = "SELECT * FROM USERS WHERE email = :email";
         $stmt = $this->_dbh->prepare($sql);
 
-        $stmt->bindParam(':email', $user->getEmail());
+        $email = $user->getEmail();
+        $stmt->bindParam(':email', $email);
 
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC) != null;
+        return !empty($stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 }

@@ -23,7 +23,7 @@ class User
      */
     function __construct($username = '', $password = '', $name = '', $email = '')
     {
-        $this->_errors = null;
+        $this->_errors = array();
         $this->setUsername($username);
         $this->setPassword($password);
         $this->setName($name);
@@ -146,6 +146,11 @@ class User
      */
     function addError($error, $desc)
     {
-        $this->_errors["$error"] = $desc;
+        $this->_errors[$error] = $desc;
+    }
+
+    function hasErrors()
+    {
+        return !empty($this->_errors);
     }
 }
