@@ -35,7 +35,7 @@ class UserDB
      */
     function signup($user)
     {
-        if($user->getErrors() === null) {
+        if(!$user->hasErrors() && !$this->exists($user)) {
             $sql = "INSERT INTO USERS (username, password, name, email) VALUES (:username, :password, :name, :email)";
 
             $stmt = $this->_dbh->prepare($sql);
