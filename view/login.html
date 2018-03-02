@@ -1,7 +1,22 @@
 <include href="view/header.html" />
 
-<div class="container">
+<div class="container text-center">
 
+	<h1>Login</h1>
+
+	<form class="form card p-5 bg-dark text-white w-75 mx-auto" method="post">
+		<div class="form-group">
+			<label for="username">Username</label><span class="text-danger">{{ @errors['username'] }} {{ @errors['duplicateUsername'] }}</span>
+			<input required type="text" class="form-control" id="username" name="username" value="{{ @username }}">
+		</div>
+		<div class="form-group">
+			<label for="password">Password</label><span class="text-danger">{{ @errors['password'] }}</span>
+			<input required type="password" class="form-control" id="password" name="password">
+		</div>
+		<div class="form-group text-center">
+			<input class="btn btn-light" type="submit" id="loginsubmit" name="loginsubmit" value="Login">
+		</div>
+	</form>
 </div>
 
 <include href="view/footer.html" />

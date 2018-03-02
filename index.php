@@ -26,35 +26,50 @@ $f3->route('GET|POST /', function($f3){
         $password = $_POST['password'];
         $email = $_POST['email'];
 
-        $user = new User($username, $password, $name, $email);
+        $newUser = new NewUser($username, $password, $name, $email);
         $dbh = new UserDB($f3);
 
         if($password !== $_POST['retype']) {
-            $user->addError('retype', ' * Password entries must match.');
+            $newUser->addError('retype', ' * Password entries must match.');
         }
-        if ($dbh->signup($user)){
-            $_SESSION['user'] = $user;
+        if ($dbh->signup($newUser)){
             $f3->reroute('/login');
         }else{
-            if($dbh->emailExists($user)) {
-                $user->addError('duplicateEmail', 'An account with that email already exists.');
+            if($dbh->emailExists($newUser)) {
+                $newUser->addError('duplicateEmail', 'An account with that email already exists.');
             }
-            if($dbh->usernameExists($user)){
-                $user->addError('duplicateUsername', 'An account with that username already exists.');
+            if($dbh->usernameExists($newUser)){
+                $newUser->addError('duplicateUsername', 'An account with that username already exists.');
             }
+
+            $_SESSION['user'] = $newUser;
         }
 
-        $f3->set('username', $user->getUsername());
-        $f3->set('email', $user->getEmail());
-        $f3->set('name', $user->getName());
-        $f3->set('errors', $user->getErrors());
+        $f3->set('username', $newUser->getUsername());
+        $f3->set('email', $newUser->getEmail());
+        $f3->set('name', $newUser->getName());
+        $f3->set('errors', $newUser->getErrors());
     }
 
     $template = new Template();
     echo $template->render('view/signup.html');
 });
 
-$f3->route('GET /login', function(){
+$f3->route('GET|POST /login', function($f3){
+    if(isset($_POST['loginsubmit'])){
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        $dbh = new UserDB($f3);
+
+        $user = $dbh->login($username, $password);
+
+        if($user != null){
+            $_SESSION['user'] = $user;
+            $f3->reroute("/keyboard");
+        }
+    }
+
     $template = new Template();
     echo $template->render('view/login.html');
 });
