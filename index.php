@@ -76,6 +76,9 @@ $f3->route('GET|POST /login', function($f3){
 });
 
 $f3->route('GET|POST /keyboard', function($f3){
+    if(!isset($_SESSION{'user'})){
+        $f3->reroute('/');
+    }
 
     $octaves = array(1,2,3,4,5,6,7,8);
     $notes = array("C" =>"C","CS" =>"C#","D" =>"D","DS" =>"D#","E" =>"E","F" =>"F","FS" =>"F#","G" =>"G","GS" =>"G#","A" =>"A","AS" =>"A#","B" =>"B");
