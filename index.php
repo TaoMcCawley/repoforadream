@@ -68,6 +68,7 @@ $f3->route('GET|POST /login', function($f3){
             $_SESSION['user'] = $user;
             $f3->reroute("/keyboard");
         }
+        $f3->set("username", $username);
     }
 
     $template = new Template();
@@ -77,7 +78,7 @@ $f3->route('GET|POST /login', function($f3){
 $f3->route('GET|POST /keyboard', function($f3){
 
     $octaves = array(1,2,3,4,5,6,7,8);
-    $notes = array(0 =>"C",1 =>"C#",2 =>"D",3 =>"D#",4 =>"E",5 =>"F",6 =>"F#",7 =>"G",8 =>"G#",9 =>"A",10 =>"A#",11 =>"B");
+    $notes = array("C" =>"C","CS" =>"C#","D" =>"D","DS" =>"D#","E" =>"E","F" =>"F","FS" =>"F#","G" =>"G","GS" =>"G#","A" =>"A","AS" =>"A#","B" =>"B");
 
     $f3->set('octaves', $octaves);
     $f3->set('notes', $notes);

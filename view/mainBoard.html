@@ -1,32 +1,35 @@
-<include href="view/header.html" />
+<include href="view/header.html"/>
 <script src="assets/audiosynth.js"></script>
-    <div class = "container">
-        <repeat group="{{ @octaves }}" value = "{{ @octave }}">
-            <div class = "row">
+<div class="container">
+	<repeat group="{{ @octaves }}" value="{{ @octave }}">
+		<div class="row">
 
-                <repeat group = "{{@notes}}" value = "{{ @note }}">
-                    <div class = "col-sm-1" style = "margin: 0px 0px 0px 0px;">
-                        <check if='{{ substr(@note, -1) == "#"}}'> <!--If the key is sharp -->
-                            <true><button type = "button" class = "btn btn-dark" style = " width: 100%; margin: 0px 0px 0px 0px;" id = "{{@octave . @note}}">{{@note}}</button></true>
-                            <false><button type = "button" class = "btn btn-light" style = " width: 100%; margin: 0px 0px 0px 0px;" id = "{{@octave . @note}}">{{@note}}</button></false>
-                        </check>
-                        <script>
-                            var piano = Synth.createInstrument('piano');
-
-                            var octave = "{{@octave}}";
-                            var note = "{{@note}}";
-
-                            $("#" + octave + note).click(function() {
-                                alert("MEH");
-                                piano.play(note, octave, 1);
-                            });
-                        </script>
+			<repeat group="{{@notes}}" key="{{ @noteID }}" value="{{ @note }}">
+				<div class="col-sm-1" style="margin: 0px 0px 0px 0px;">
+					<check if='{{ substr(@note, -1) == "#"}}'> <!--If the key is sharp -->
+						<true>
+							<button type="button" class="btn btn-dark" style=" width: 100%; margin: 0px 0px 0px 0px;"
+							        name="{{ @octave }}" id="{{ @note }}">{{@note}}
+							</button>
+						</true>
+						<false>
+							<button type="button" class="btn btn-light" style=" width: 100%; margin: 0px 0px 0px 0px;"
+							        name="{{ @octave }}" id="{{ @note }}">{{@note}}
+							</button>
+						</false>
+					</check>
 
 
-                    </div>
-                </repeat>
-            </div>
-        </repeat>
-    </div>
+				</div>
+			</repeat>
+		</div>
+	</repeat>
+</div>
+<script type="text/javascript">
+    var piano = Synth.createInstrument('piano');
 
-<include href="view/footer.html" />
+    $("button").click(function () {
+	    piano.play($(this).attr('id'), $(this).attr('name'));
+    });
+</script>
+<include href="view/footer.html"/>
