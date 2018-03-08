@@ -54,6 +54,30 @@ class UserDB
     }
 
     /**
+     * @param $username
+     * @param $password
+     * @return User A user object if login is successful
+     */
+    function login($username, $password)
+    {
+        $stmt = $this->_dbh->prepare("SELECT * FROM USERS WHERE username = :username AND password = :password");
+
+        $password = sha1($password);
+        $stmt->bindParam(":username", $username);
+        $stmt->bindParam(":password", $password);
+
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if(empty($result)){
+            return null;
+        }
+
+        return new User($username, $result['name'], $result['email']);
+    }
+
+    /**
      * Checks if a user already exists.
      * @param $user The user being searched for
      * @return bool Whether the user is already in the database
