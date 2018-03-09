@@ -8,6 +8,7 @@
 
 require_once 'vendor/autoload.php';
 
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -56,6 +57,7 @@ $f3->route('GET|POST /', function($f3){
 });
 
 $f3->route('GET|POST /login', function($f3){
+    include 'model/UserDB.php';
     if(isset($_POST['loginsubmit'])){
         $username = $_POST['username'];
         $password = $_POST['password'];
@@ -76,19 +78,30 @@ $f3->route('GET|POST /login', function($f3){
 });
 
 $f3->route('GET|POST /keyboard', function($f3){
-    if(!isset($_SESSION{'user'})){
-        $f3->reroute('/');
-    }
+//    if(!isset($_SESSION{'user'})){
+//        $f3->reroute('/');
+//    }
+
+    include 'model/noteFunctions.php';
 
     $octaves = array(1,2,3,4,5,6,7,8);
     $notes = array("C" =>"C","CS" =>"C#","D" =>"D","DS" =>"D#","E" =>"E","F" =>"F","FS" =>"F#","G" =>"G","GS" =>"G#","A" =>"A","AS" =>"A#","B" =>"B");
+    $keyboardScheme = getDefaultNotes();
+
 
     $f3->set('octaves', $octaves);
     $f3->set('notes', $notes);
+    $f3->set('noteScheme', $keyboardScheme);
 
     $template = new Template();
     echo $template->render('view/mainBoard.html');
 
+});
+
+$f3->route('GET|POST /settings', function($f3){
+
+
+    $listOfKeys = get;
 });
 
 $f3->run();
