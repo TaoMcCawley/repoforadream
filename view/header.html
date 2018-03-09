@@ -6,6 +6,8 @@
 
 	<!-- BootStrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet">
+	<link rel="stylesheet" href="{{@BASE}}/styles/styles.css" />
 	<!-- Jquery inclusion-->
 	<script src="http://code.jquery.com/jquery.js"></script>
 </head>
@@ -14,8 +16,8 @@
 <nav class="navbar navbar-light bg-light">
 	<a class="navbar-brand" href="#">Keyboard</a>
 	<div class="navbar-nav">
-		<check if="{{ !isset(@SESSION['user'] }}">
-			<a class="nav-item nav-link" href="login.html">Login</a>
+		<check if="{{ !isset(@SESSION['user']) }}">
+			<a class="nav-item nav-link" href="{{@BASE}}/login">Login</a>
 		</check>
 	</div>
 </nav>
