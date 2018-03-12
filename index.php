@@ -57,7 +57,6 @@ $f3->route('GET|POST /', function($f3){
 });
 
 $f3->route('GET|POST /login', function($f3){
-    include 'model/UserDB.php';
     if(isset($_POST['loginsubmit'])){
         $username = $_POST['username'];
         $password = $_POST['password'];
@@ -82,7 +81,6 @@ $f3->route('GET|POST /keyboard', function($f3){
 //        $f3->reroute('/');
 //    }
 
-    include 'model/noteFunctions.php';
 
     $octaves = array(1,2,3,4,5,6,7,8);
     $notes = array("C" =>"C","CS" =>"C#","D" =>"D","DS" =>"D#","E" =>"E","F" =>"F","FS" =>"F#","G" =>"G","GS" =>"G#","A" =>"A","AS" =>"A#","B" =>"B");
