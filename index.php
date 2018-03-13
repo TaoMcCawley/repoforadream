@@ -88,10 +88,12 @@ $f3->route('GET|POST /keyboard', function($f3){
     $notes = array("C" =>"C","CS" =>"C#","D" =>"D","DS" =>"D#","E" =>"E","F" =>"F","FS" =>"F#","G" =>"G","GS" =>"G#","A" =>"A","AS" =>"A#","B" =>"B");
     $keyboardScheme = getDefaultNotes();
 
+    $defaultOctave = 4;
 
     $f3->set('octaves', $octaves);
     $f3->set('notes', $notes);
     $f3->set('noteScheme', $keyboardScheme);
+    $f3->set('currentOctave', $defaultOctave);
 
     $template = new Template();
     echo $template->render('view/mainBoard.html');
@@ -100,8 +102,6 @@ $f3->route('GET|POST /keyboard', function($f3){
 
 $f3->route('GET|POST /settings', function($f3){
 
-
-    $listOfKeys = get;
 });
 
 $f3->run();

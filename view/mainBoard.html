@@ -4,17 +4,17 @@
 	<repeat group="{{ @octaves }}" value="{{ @octave }}">
 		<div class="row">
 
-			<repeat group="{{@notes}}" key="{{ @noteID }}" value="{{ @note }}">
+			<repeat group="{{@noteScheme}}" key="{{ @noteID }}" value="{{ @note }}">
 				<div class="col-sm-1" style="margin: 0px 0px 0px 0px;">
 					<check if='{{ substr(@note, -1) == "#"}}'> <!--If the key is sharp -->
 						<true>
 							<button type="button" class="btn btn-dark" style=" width: 100%; margin: 0px 0px 0px 0px;"
-							        name="{{ @octave }}" id="{{ @note }}">{{@note}}
+							        name="{{ @octave }}" value="{{ @note }}" id = "{{@noteID}}">{{@note}}
 							</button>
 						</true>
 						<false>
 							<button type="button" class="btn btn-light" style=" width: 100%; margin: 0px 0px 0px 0px;"
-							        name="{{ @octave }}" id="{{ @note }}">{{@note}}
+							        name="{{ @octave }}" value="{{ @note }}" id = "{{@noteID}}">{{@note}}
 							</button>
 						</false>
 					</check>
@@ -27,9 +27,26 @@
 </div>
 <script type="text/javascript">
     var piano = Synth.createInstrument('piano');
+    var octave = '{{@currentOctave}}';
 
     $("button").click(function () {
-	    piano.play($(this).attr('id'), $(this).attr('name'));
+	    piano.play($(this).attr('value'), octave);
+
     });
+
+
+    $(document).keypress(function (event) {
+        //alert(String.fromCharCode(event.keyCode));
+		if(String.fromCharCode(event.keyCode) == '1' && octave > 1){
+			octave-=1;
+		}
+		else if (String.fromCharCode(event.keyCode) == '0' && octave < 8){
+		    octave++;
+		}
+		$("#"+String.fromCharCode(event.keyCode)).click();
+
+        //piano.play($(this).attr('value'), 4);
+    });
+
 </script>
 <include href="view/footer.html"/>
