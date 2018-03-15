@@ -57,6 +57,7 @@ $f3->route('GET|POST /', function($f3){
 });
 
 $f3->route('GET|POST /login', function($f3){
+    include 'model/UserDB.php';
     if(isset($_POST['loginsubmit'])){
         $username = $_POST['username'];
         $password = $_POST['password'];
@@ -81,16 +82,45 @@ $f3->route('GET|POST /keyboard', function($f3){
 //        $f3->reroute('/');
 //    }
 
+    $title = 'Keyboard';
+    $f3->set('title', $title);
+    include 'model/noteFunctions.php';
 
-    $octaves = array(1,2,3,4,5,6,7,8);
-    $notes = array("C" =>"C","CS" =>"C#","D" =>"D","DS" =>"D#","E" =>"E","F" =>"F","FS" =>"F#","G" =>"G","GS" =>"G#","A" =>"A","AS" =>"A#","B" =>"B");
-    $keyboardScheme = getDefaultNotes();
+    $displayedOctaves = 2;
+    $firstOctave = array(
+        'q' =>'C',
+        '2'=>'C#',
+        'w'=>'D',
+        '3'=>'D#',
+        'e'=>'E',
+        'r'=>'F',
+        '5'=>'F#',
+        't'=>'G',
+        '6'=>'G#',
+        'y'=>'A',
+        '7'=>'A#',
+        'u'=>'B'
+    );
+    $secondOctave = array(
+        'i' =>'C',
+        '9'=>'C#',
+        'o'=>'D',
+        '0'=>'D#',
+        'p'=>'E',
+        'z'=>'F',
+        's'=>'F#',
+        'x'=>'G',
+        'd'=>'G#',
+        'c'=>'A',
+        'f'=>'A#',
+        'v'=>'B'
+    );
 
     $defaultOctave = 4;
 
-    $f3->set('octaves', $octaves);
-    $f3->set('notes', $notes);
-    $f3->set('noteScheme', $keyboardScheme);
+    $f3->set('octaves', $displayedOctaves);
+    $f3->set('firstOctave', $firstOctave);
+    $f3->set('secondOctave', $secondOctave);
     $f3->set('currentOctave', $defaultOctave);
 
     $template = new Template();
