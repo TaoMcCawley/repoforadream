@@ -11,6 +11,8 @@ class User
     private $_username;
     private $_name;
     private $_email;
+    private $_id;
+    private $_songs;
 
     /**
      * User constructor.
@@ -19,11 +21,12 @@ class User
      * @param string $name
      * @param string $email
      */
-    function __construct($username = '', $name = '', $email = '')
+    function __construct($username = '', $name = '', $email = '', $id = 0)
     {
         $this->setUsername($username);
         $this->setName($name);
         $this->setEmail($email);
+        $this->setID($id);
     }
 
     /**
@@ -33,6 +36,15 @@ class User
     function setUsername($username)
     {
         $this->_username = $username;
+    }
+
+    /**
+     * Sets the songs that belong to the user.
+     * @param array of Song objects $songs
+     */
+    function setSongs($songs)
+    {
+        $this->_songs = $songs;
     }
 
     /**
@@ -53,12 +65,21 @@ class User
         $this->_email = $email;
     }
 
+    /**
+     * Sets the id number of the user
+     * @param $id
+     */
+    function setID($id)
+    {
+        $this->_id = $id;
+    }
+
 
     /*************** GETTERS ***************/
 
     /**
      * Gets username
-     * @return mixed
+     * @return String username
      */
     function getUsername()
     {
@@ -67,7 +88,7 @@ class User
 
     /**
      * Gets name
-     * @return mixed
+     * @return String name
      */
     function getName()
     {
@@ -76,10 +97,28 @@ class User
 
     /**
      * Gets email
-     * @return mixed
+     * @return String E-mail
      */
     function getEmail()
     {
         return $this->_email;
+    }
+
+    /**
+     * Gets id number
+     * @return Integer id
+     */
+    function getID()
+    {
+        return $this->_id;
+    }
+
+    /**
+     * Gets the User's songs.
+     * @return array of Song ojbects
+     */
+    function getSongs()
+    {
+        return $this->_songs;
     }
 }
