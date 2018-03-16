@@ -74,7 +74,7 @@ class UserDB
             return null;
         }
 
-        return new User($username, $result['name'], $result['email']);
+        return new User($username, $result['name'], $result['email'], $result['id']);
     }
 
     /**
@@ -121,5 +121,31 @@ class UserDB
         $stmt->execute();
 
         return !empty($stmt->fetchAll(PDO::FETCH_ASSOC));
+    }
+
+    /**
+     * Saves a song to the database. Song cannot be an empty song.
+     * @param $user User that wants to save a song
+     * @param $song The content of the song
+     * @return bool Returns false if song is empty
+     */
+    function saveSong($user, $song)
+    {
+        if(empty($song)){
+            return false;
+        }
+
+        $sql = "INSERT INTO SONGS (userID, content) VALUES (:userID, :content)";
+
+        $stmt = $this->_dbh->prepare($sql);
+
+        $userID = $user->getID();
+
+        $stmt->bindParam(":userID", $userID);
+        $stmt->bindParam(":content", $song);
+
+        $stmt->execute();
+
+        return true;
     }
 }
