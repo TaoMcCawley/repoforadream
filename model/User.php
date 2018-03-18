@@ -13,6 +13,9 @@ class User
     private $_email;
     private $_id;
     private $_songs;
+    private $_mapping;
+
+
 
     /**
      * User constructor.
@@ -21,12 +24,13 @@ class User
      * @param string $name
      * @param string $email
      */
-    function __construct($username = '', $name = '', $email = '', $id = 0)
+    function __construct($username = '', $name = '', $email = '', $id = 0, $mapping = 'q2w3er5t6y7ui9o0pzsxdcfv')
     {
         $this->setUsername($username);
         $this->setName($name);
         $this->setEmail($email);
         $this->setID($id);
+        $this->setMapping($mapping);
     }
 
     /**
@@ -120,5 +124,20 @@ class User
     function getSongs()
     {
         return $this->_songs;
+    }
+    /**
+     * @return mixed
+     */
+    public function getMapping()
+    {
+        return $this->_mapping;
+    }
+
+    /**
+     * @param mixed $mapping
+     */
+    public function setMapping($mapping)
+    {
+        $this->_mapping = $mapping;
     }
 }

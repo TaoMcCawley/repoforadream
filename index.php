@@ -78,43 +78,68 @@ $f3->route('GET|POST /login', function($f3){
 });
 
 $f3->route('GET|POST /keyboard', function($f3){
-//    if(!isset($_SESSION{'user'})){
-//        $f3->reroute('/');
-//    }
-
     $title = 'Keyboard';
     $f3->set('title', $title);
-    include 'model/noteFunctions.php';
-
     $displayedOctaves = 2;
-    $firstOctave = array(
-        'q' =>'C',
-        '2'=>'C#',
-        'w'=>'D',
-        '3'=>'D#',
-        'e'=>'E',
-        'r'=>'F',
-        '5'=>'F#',
-        't'=>'G',
-        '6'=>'G#',
-        'y'=>'A',
-        '7'=>'A#',
-        'u'=>'B'
-    );
-    $secondOctave = array(
-        'i' =>'C',
-        '9'=>'C#',
-        'o'=>'D',
-        '0'=>'D#',
-        'p'=>'E',
-        'z'=>'F',
-        's'=>'F#',
-        'x'=>'G',
-        'd'=>'G#',
-        'c'=>'A',
-        'f'=>'A#',
-        'v'=>'B'
-    );
+
+    if(!isset($_SESSION{'user'})){
+        $firstOctave = array(
+            'q' =>'C',
+            '2'=>'C#',
+            'w'=>'D',
+            '3'=>'D#',
+            'e'=>'E',
+            'r'=>'F',
+            '5'=>'F#',
+            't'=>'G',
+            '6'=>'G#',
+            'y'=>'A',
+            '7'=>'A#',
+            'u'=>'B'
+        );
+        $secondOctave = array(
+            'i' =>'C',
+            '9'=>'C#',
+            'o'=>'D',
+            '0'=>'D#',
+            'p'=>'E',
+            'z'=>'F',
+            's'=>'F#',
+            'x'=>'G',
+            'd'=>'G#',
+            'c'=>'A',
+            'f'=>'A#',
+            'v'=>'B'
+        );
+    }else{
+        $user = $_SESSION['user'];
+        $rawNotes = $user->getMapping();
+        $allOctaves = getMappingArray($rawNotes);
+        $firstOctave = $allOctaves[0];
+        $secondOctave = $allOctaves[1];
+
+
+    }
+
+    function getMappingArray($rawNotes){
+
+        $noteValues = array('C','C#','D','D#','E','F','F#','G','G#','A','A#','B');
+
+        $firstOctave = array();
+        for($i = 0; $i <= sizeof($noteValues);$i++){
+            $firstOctave[$rawNotes[$i]]= $noteValues[$i];
+        }
+
+        $secondOctave = array();
+        for($i = 0; $i <= sizeof($noteValues);$i++){
+            $secondOctave[$rawNotes[$i + sizeof($noteValues)]]= $noteValues[$i];
+        }
+
+        $allOctaves = array($firstOctave, $secondOctave);
+
+        return $allOctaves;
+    }
+
 
     $defaultOctave = 4;
 
@@ -122,6 +147,8 @@ $f3->route('GET|POST /keyboard', function($f3){
     $f3->set('firstOctave', $firstOctave);
     $f3->set('secondOctave', $secondOctave);
     $f3->set('currentOctave', $defaultOctave);
+
+
 
     $template = new Template();
     echo $template->render('view/mainBoard.html');

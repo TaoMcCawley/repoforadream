@@ -41,32 +41,54 @@
 </div>
 <script type="text/javascript">
     var piano = Synth.createInstrument('piano');
+    var octave;
 
 
-    $("button").click(function () {
-        var octave = $(this).attr('name');
+
+    $("button").mousedown(function () {
+        octave = $(this).attr('name');
+        var className = $(this).attr('class');
 	    piano.play($(this).attr('value'), octave);
-
-    });
-
-    $(document).keydown(function (event) {
-
-    });
-
-    $(document).keyup(function (event) {
+        $(this).removeClass(className);
+        $(this).addClass("btn btn-success");
 
     });
 
     $(document).keypress(function (event) {
-        //alert(String.fromCharCode(event.keyCode));
-		if(String.fromCharCode(event.keyCode) == '-' && octave > 1){
-			octave-=1;
-		}
-		else if (String.fromCharCode(event.keyCode) == '=' && octave < 8){
-		    octave++;
-		}
-		$("#"+String.fromCharCode(event.keyCode)).click();
+        var key = String.fromCharCode(event.keyCode);
 
+        if(key == '-' && octave > 1){
+            octave-=1;
+        }
+        else if (key == '=' && octave < 7){
+            octave++;
+        }
+        $("#"+key).mousedown();
+
+
+    });
+
+    $(document).keyup(function (event) {
+        var key = String.fromCharCode(event.keyCode);
+        if(isNaN(key)){
+            key = String.fromCharCode(event.keyCode + 32);
+		}
+        $("#"+key).mouseup();
+
+
+    });
+
+    $("button").mouseup(function (event) {
+        var className;
+        if($(this).val().length == 2){
+            className = 'btn btn-dark';
+		} else {
+            className = 'btn btn-light';
+		}
+
+
+        $(this).removeClass("btn btn-success");
+        $(this).addClass(className);
     });
 
 </script>
