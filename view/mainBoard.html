@@ -41,16 +41,28 @@
 </div>
 <script type="text/javascript">
     var piano = Synth.createInstrument('piano');
-    var octave;
-
-
+    var octave = {{@currentOctave}};
 
     $("button").mousedown(function () {
-        octave = $(this).attr('name');
+        var playedOctave = octave;
+		if(!($(this).attr('name') == octave)){
+		    playedOctave+=1;
+		}
         var className = $(this).attr('class');
-	    piano.play($(this).attr('value'), octave);
+	    piano.play($(this).attr('value'), playedOctave);
         $(this).removeClass(className);
         $(this).addClass("btn btn-success");
+
+    });
+
+    $(document).keydown(function (event) {
+        var key = String.fromCharCode(event.keyCode);
+        if(isNaN(key)){
+            key = String.fromCharCode(event.keyCode + 32);
+        }
+
+        $("#"+key).mousedown();
+
 
     });
 
@@ -60,12 +72,9 @@
         if(key == '-' && octave > 1){
             octave-=1;
         }
-        else if (key == '=' && octave < 7){
+        else if (key == '+' && octave < 7){
             octave++;
         }
-        $("#"+key).mousedown();
-
-
     });
 
     $(document).keyup(function (event) {
@@ -85,7 +94,6 @@
 		} else {
             className = 'btn btn-light';
 		}
-
 
         $(this).removeClass("btn btn-success");
         $(this).addClass(className);
