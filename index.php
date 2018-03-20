@@ -18,6 +18,7 @@ $f3 = Base::instance();
 
 $f3->set('DEBUG', 3);
 
+// Default sign-up route
 $f3->route('GET|POST /', function ($f3) {
     $f3->set('title', 'Keyboard - Sign Up');
 
@@ -56,6 +57,7 @@ $f3->route('GET|POST /', function ($f3) {
     echo $template->render('view/signup.html');
 });
 
+// User login page
 $f3->route('GET|POST /login', function ($f3) {
     $title = "Keyboard - Login";
     $f3->set("title", $title);
@@ -69,7 +71,7 @@ $f3->route('GET|POST /login', function ($f3) {
         $user = $dbh->login($username, $password);
 
         if ($user != null) {
-            $user->setSongs($dbh->loadSongs($user));
+            $user->setSongs($dbh->loadSongs($user)); // Loads that users songs.
             $_SESSION['user'] = $user;
             $f3->reroute("/keyboard");
         }
@@ -80,6 +82,7 @@ $f3->route('GET|POST /login', function ($f3) {
     echo $template->render('view/login.html');
 });
 
+// The actual keyboard
 $f3->route('GET|POST /keyboard', function ($f3) {
     $title = 'Keyboard';
     $f3->set('title', $title);
@@ -138,6 +141,7 @@ $f3->route('GET|POST /keyboard', function ($f3) {
     echo $template->render('view/mainBoard.html');
 });
 
+// This route saves songs to the database
 $f3->route('POST /savesong', function ($f3) {
     $songContent = $_POST['song'];
     $name = $_POST['name'];
@@ -152,6 +156,7 @@ $f3->route('POST /savesong', function ($f3) {
     echo $name.":".$songContent;
 });
 
+// This route logs the user out by destroying the session
 $f3->route('GET /logout', function($f3){
     session_destroy();
     $f3->reroute("/login");
