@@ -142,6 +142,11 @@ class User
         return $this->getMappingArray($this->_mapping);
     }
 
+    /**
+     * Returns an array of the keys that are mapped
+     * @param $rawNotes
+     * @return array
+     */
     function getMappingArray($rawNotes)
     {
 

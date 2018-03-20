@@ -6,6 +6,10 @@
  * Time: 2:14 PM
  */
 
+/**
+ * Class NewUser
+ * This class differs from Class User in that the Class User does not store the password in the object.
+ */
 class NewUser
 {
     private $_username;
