@@ -139,7 +139,26 @@ class User
      */
     public function getMapping()
     {
-        return $this->_mapping;
+        return $this->getMappingArray($this->_mapping);
+    }
+
+    function getMappingArray($rawNotes)
+    {
+
+        $noteValues = array('C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B');
+
+        $firstOctave = array();
+        $secondOctave = array();
+
+        for ($i = 0; $i < sizeof($noteValues); $i++) {
+            $firstOctave[$rawNotes[$i]] = $noteValues[$i];
+            $secondOctave[$rawNotes[$i + sizeof($noteValues)]] = $noteValues[$i];
+
+        }
+
+        $allOctaves = array($firstOctave, $secondOctave);
+
+        return $allOctaves;
     }
 
     /**

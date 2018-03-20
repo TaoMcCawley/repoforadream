@@ -175,7 +175,7 @@ class UserDB
         $songs = array();
 
         foreach($results as $row){
-            $songs[] = new Song($row['id'], $row['name'], $row['content']);
+            $songs[] = new Song($row['id'], $row['Name'], $row['content']);
         }
 
         return $songs;
