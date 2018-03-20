@@ -3,7 +3,7 @@
 <div class="container">
 	<div class="row mt-3">
 		<repeat group="{{@firstOctave}}" key="{{ @noteID }}" value="{{ @note }}">
-			<div class="col-sm-1" style="margin: 0px 0px 0px 0px;">
+			<div class="col-sm-1 m-0">
 				<check if='{{ substr(@note, -1) == "#"}}'> <!--If the key is sharp -->
 					<true>
 						<button type="button" class="note lower btn btn-dark w-100 m-0"
@@ -23,7 +23,7 @@
 	</div>
 	<div class="row mt-3">
 		<repeat group="{{@secondOctave}}" key="{{ @noteID }}" value="{{ @note }}">
-			<div class="col-sm-1" style="margin: 0px 0px 0px 0px;">
+			<div class="col-sm-1 m-0">
 				<check if='{{ substr(@note, -1) == "#"}}'> <!--If the key is sharp -->
 					<true>
 						<button type="button" class="note upper btn btn-dark w-100 m-0"
@@ -33,7 +33,6 @@
 					</true>
 					<false>
 						<button type="button" class="note upper btn btn-light w-100 m-0"
-
 						        name="{{ @currentOctave +1 }}" value="{{ @note }}" id="{{@noteID}}"><p>{{@note}}</p>
 							<p>{{@noteID}}</p>
 						</button>
@@ -90,14 +89,15 @@
 								<button class="song btn float-right mr-5 col-3" value="{{ trim(@song->getContent()) }}">
 									{{ @song->getName() }}
 								</button>
-								</li><li class="list-group-item">
-							</true>
-							<false>
-								<button class="song btn float-left ml-5 col-3" value="{{ trim(@song->getContent()) }}">
-									{{ @song->getName() }}
-								</button>
-							</false>
-						</check>
+				</li>
+				<li class="list-group-item">
+					</true>
+					<false>
+						<button class="song btn float-left ml-5 col-3" value="{{ trim(@song->getContent()) }}">
+							{{ @song->getName() }}
+						</button>
+					</false>
+					</check>
 					</repeat>
 				</li>
 			</ul>
