@@ -19,7 +19,7 @@ $f3 = Base::instance();
 $f3->set('DEBUG', 3);
 
 $f3->route('GET|POST /', function ($f3) {
-    $f3->set('title', 'Keyboard - Login');
+    $f3->set('title', 'Keyboard - Sign Up');
 
     if (isset($_POST['signupsubmit'])) {
         $name = $_POST['name'];
@@ -57,6 +57,9 @@ $f3->route('GET|POST /', function ($f3) {
 });
 
 $f3->route('GET|POST /login', function ($f3) {
+    $title = "Keyboard - Login";
+    $f3->set("title", $title);
+
     if (isset($_POST['loginsubmit'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
@@ -78,8 +81,6 @@ $f3->route('GET|POST /login', function ($f3) {
 });
 
 $f3->route('GET|POST /keyboard', function ($f3) {
-
-
     $title = 'Keyboard';
     $f3->set('title', $title);
     $displayedOctaves = 2;
@@ -122,11 +123,7 @@ $f3->route('GET|POST /keyboard', function ($f3) {
         $secondOctave = $allOctaves[1];
         $loggedIn = "true";
         $songs = $user->getSongs();
-
     }
-
-
-
 
     $defaultOctave = 4;
 
@@ -139,11 +136,6 @@ $f3->route('GET|POST /keyboard', function ($f3) {
 
     $template = new Template();
     echo $template->render('view/mainBoard.html');
-
-});
-
-$f3->route('GET|POST /settings', function ($f3) {
-
 });
 
 $f3->route('POST /savesong', function ($f3) {
@@ -158,6 +150,11 @@ $f3->route('POST /savesong', function ($f3) {
     $user->addSong($song);
 
     echo $name.":".$songContent;
+});
+
+$f3->route('GET /logout', function($f3){
+    session_destroy();
+    $f3->reroute("/login");
 });
 
 $f3->run();
