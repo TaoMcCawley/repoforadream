@@ -31,6 +31,7 @@ class User
         $this->setEmail($email);
         $this->setID($id);
         $this->setMapping($mapping);
+        $this->_songs = array();
     }
 
     /**
@@ -76,6 +77,14 @@ class User
     function setID($id)
     {
         $this->_id = $id;
+    }
+
+    /**
+     * @param mixed $mapping
+     */
+    public function setMapping($mapping)
+    {
+        $this->_mapping = $mapping;
     }
 
 
@@ -134,10 +143,11 @@ class User
     }
 
     /**
-     * @param mixed $mapping
+     * Adds a Song object to user's array of songs.
+     * @param Song $song
      */
-    public function setMapping($mapping)
+    function addSong($song)
     {
-        $this->_mapping = $mapping;
+        $this->_songs[] = $song;
     }
 }

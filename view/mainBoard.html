@@ -1,67 +1,137 @@
 <include href="view/header.html"/>
 <script src="assets/audiosynth.js"></script>
 <div class="container">
-		<div class="row">
-			<repeat group="{{@firstOctave}}" key="{{ @noteID }}" value="{{ @note }}">
+	<div class="row mt-3">
+		<repeat group="{{@firstOctave}}" key="{{ @noteID }}" value="{{ @note }}">
 			<div class="col-sm-1" style="margin: 0px 0px 0px 0px;">
 				<check if='{{ substr(@note, -1) == "#"}}'> <!--If the key is sharp -->
 					<true>
-						<button type="button" class="btn btn-dark" style=" width: 100%; margin: 0px 0px 0px 0px;"
-								name="{{ @currentOctave }}" value="{{ @note }}" id = "{{@noteID}}"><p>{{@note}}</p><p>{{@noteID}}</p>
+						<button type="button" class="note btn btn-dark" style=" width: 100%; margin: 0px 0px 0px 0px;"
+						        name="{{ @currentOctave }}" value="{{ @note }}" id="{{@noteID}}"><p>{{@note}}</p>
+							<p>{{@noteID}}</p>
 						</button>
 					</true>
 					<false>
-						<button type="button" class="btn btn-light" style=" width: 100%; margin: 0px 0px 0px 0px;"
-								name="{{ @currentOctave }}" value="{{ @note }}" id = "{{@noteID}}"><p>{{@note}}</p><p>{{@noteID}}</p>
-						</button>
-					</false>
-				</check>
-			</div>
-		</repeat>
-		</div>
-	<div class="row">
-		<repeat group="{{@secondOctave}}" key="{{ @noteID }}" value="{{ @note }}">
-			<div class="col-sm-1" style="margin: 0px 0px 0px 0px;">
-				<check if='{{ substr(@note, -1) == "#"}}'> <!--If the key is sharp -->
-					<true>
-						<button type="button" class="btn btn-dark" style=" width: 100%; margin: 0px 0px 0px 0px;"
-								name="{{ @currentOctave +1 }}" value="{{ @note }}" id = "{{@noteID}}"><p>{{@note}}</p><p>{{@noteID}}</p>
-						</button>
-					</true>
-					<false>
-						<button type="button" class="btn btn-light" style=" width: 100%; margin: 0px 0px 0px 0px;"
-								name="{{ @currentOctave +1 }}" value="{{ @note }}" id = "{{@noteID}}"><p>{{@note}}</p><p>{{@noteID}}</p>
+						<button type="button" class="note btn btn-light" style=" width: 100%; margin: 0px 0px 0px 0px;"
+						        name="{{ @currentOctave }}" value="{{ @note }}" id="{{@noteID}}"><p>{{@note}}</p>
+							<p>{{@noteID}}</p>
 						</button>
 					</false>
 				</check>
 			</div>
 		</repeat>
 	</div>
+	<div class="row mt-3">
+		<repeat group="{{@secondOctave}}" key="{{ @noteID }}" value="{{ @note }}">
+			<div class="col-sm-1" style="margin: 0px 0px 0px 0px;">
+				<check if='{{ substr(@note, -1) == "#"}}'> <!--If the key is sharp -->
+					<true>
+						<button type="button" class="note btn btn-dark" style=" width: 100%; margin: 0px 0px 0px 0px;"
+						        name="{{ @currentOctave +1 }}" value="{{ @note }}" id="{{@noteID}}"><p>{{@note}}</p>
+							<p>{{@noteID}}</p>
+						</button>
+					</true>
+					<false>
+						<button type="button" class="note btn btn-light" style=" width: 100%; margin: 0px 0px 0px 0px;"
+						        name="{{ @currentOctave +1 }}" value="{{ @note }}" id="{{@noteID}}"><p>{{@note}}</p>
+							<p>{{@noteID}}</p>
+						</button>
+					</false>
+				</check>
+			</div>
+		</repeat>
+	</div>
+	<div class="row p-3">
+		<div class="btn-group col-12" role="group" aria-label="Basic example">
+
+			<button class="col-4 btn btn-secondary" id="record"><img class="p-2" src="assets/power-button.png"
+			                                                         alt="Record"/>
+			</button>
+			<button class="col-4 btn btn-secondary" id="play"><img class="p-2" src="assets/play-button.png"
+			                                                       alt="Play"/>
+			</button>
+			<button class="col-4 btn btn-secondary" id="stop"><img class="p-2" src="assets/stop-button.png"
+			                                                       alt="Stop"/>
+			</button>
+		</div>
+	</div>
+	<div class="row align-items-center">
+		<label class="ml-auto" for="songName">Song Name: </label>
+		<input class="m-5" type="text" name="songName" id="songName"/>
+		<button class="btn btn-primary col-3 mr-auto" id="savesong" name="savesong">Save</button>
+	</div>
+	<div class="row">
+		<h4>PLAYBACK INSTRUCTIONS</h4>
+	</div>
+	<div class="row">
+		<ul class="list-group list-group-flush">
+			<li class="list-group-item">Power button: Starts/Stops recording.</li>
+			<li class="list-group-item">Play button: Plays the recorded song.</li>
+			<li class="list-group-item">Stop button: Stops the song that's playing.</li>
+			<li class="list-group-item">Saving Songs: To save a song, it must be recorded and there must be a name
+				entered.
+			</li>
+		</ul>
+	</div>
+	<div hidden>Icons made by <a href="https://www.flaticon.com/authors/chanut" title="Chanut">Chanut</a> from <a
+			href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a
+			href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0
+		BY</a></div>
 
 </div>
 <script type="text/javascript">
+    // Variables
     var piano = Synth.createInstrument('piano');
+    var songContent = "";        // Tracks which notes are played by tracking keys pressed
+    var recording = false;       // Flag for recording status
+    var typing = false;          // Flag so notes aren't played while inputting song name
+    var song = [];               // Holds array of notes to be played
+    var notes = [];              // Holds array of notes that are timed using the setTime method
+    var down = {};               // Tracks which keys have been pressed so that the user can't hold down the key and must release to
+                                 // play another note, whether or not its the same note
     var octave = {{@currentOctave}};
 
-    $("button").mousedown(function () {
+    Synth.setSampleRate(20000); // Loads notes a little faster
+
+    // Custom Functions
+    // Sets up the notes to play at appropriate times
+    function setTime(index) {
+        notes[index] = setTimeout(function () {
+            $("#" + song[index]).mousedown();
+        }, index * 500);
+        notes[index * 2] = setTimeout(function () {
+            $("#" + song[index]).mouseup();
+        }, (index * 500) + 500);
+    }
+
+
+    $(".note").mousedown(function () {
         var playedOctave = octave;
-		if(!($(this).attr('name') == octave)){
-		    playedOctave+=1;
-		}
+        if (!($(this).attr('name') == octave)) {
+            playedOctave += 1;
+        }
         var className = $(this).attr('class');
-	    piano.play($(this).attr('value'), playedOctave);
+        piano.play($(this).attr('value'), playedOctave);
         $(this).removeClass(className);
-        $(this).addClass("btn btn-success");
+        $(this).addClass("note btn btn-success");
+
+        if (recording) {
+            songContent += $(this).attr('id') + " ";
+        }
 
     });
 
     $(document).keydown(function (event) {
         var key = String.fromCharCode(event.keyCode);
-        if(isNaN(key)){
+
+        if (isNaN(key)) {
             key = String.fromCharCode(event.keyCode + 32);
         }
 
-        $("#"+key).mousedown();
+        if (down[key] == null && !typing) {
+            down[key] = true;
+            $("#" + key).mousedown();
+        }
 
 
     });
@@ -69,35 +139,90 @@
     $(document).keypress(function (event) {
         var key = String.fromCharCode(event.keyCode);
 
-        if(key == '-' && octave > 1){
-            octave-=1;
+        if (key == '-' && octave > 1) {
+            octave -= 1;
         }
-        else if (key == '+' && octave < 7){
+        else if (key == '+' && octave < 7) {
             octave++;
         }
     });
 
     $(document).keyup(function (event) {
         var key = String.fromCharCode(event.keyCode);
-        if(isNaN(key)){
+        if (isNaN(key)) {
             key = String.fromCharCode(event.keyCode + 32);
-		}
-        $("#"+key).mouseup();
+        }
 
-
+        down[key] = null;
+        $("#" + key).mouseup();
     });
 
-    $("button").mouseup(function (event) {
+    $(".note").mouseup(function () {
         var className;
-        if($(this).val().length == 2){
-            className = 'btn btn-dark';
-		} else {
-            className = 'btn btn-light';
-		}
+        if ($(this).val().length == 2) {
+            className = 'note btn btn-dark';
+        } else {
+            className = 'note btn btn-light';
+        }
 
         $(this).removeClass("btn btn-success");
         $(this).addClass(className);
     });
 
+    $("#record").click(function () {
+        recording = !recording;
+
+        if (recording) {
+            alert("Recording has begun!");
+            $(this).addClass("active");
+        } else {
+            alert("Recording has ended!");
+            $(this).removeClass("active");
+        }
+    });
+
+    $("#play").click(function () {
+        song = songContent.split(" ");
+
+        for (var i = 0; i < song.length; i++) {
+            setTime(i);
+        }
+    });
+
+
+    $("#stop").click(function () {
+        for (var i = 0; i < notes.length; i++) {
+            clearInterval(notes[i]);
+            $("#" + song[i]).mouseup();
+        }
+    });
+
+    $("#savesong").click(function () {
+        var name = $('#songName').val();
+
+        if (name != "" && songContent != "") {
+            $.post("savesong", {song: songContent, name: name}, function (result, status) {
+                alert("Result: " + result + "- - - -Status: " + status);
+            });
+        } else {
+            var alertMsg = "";
+            if (songContent == "") {
+                alertMsg += "Saving empty songs is not allowed.\n";
+            }
+            if (name == "") {
+                alertMsg += "Every song must have a name.";
+            }
+
+            alert(alertMsg);
+        }
+    });
+
+    $("#songName").focus(function () {
+        typing = true;
+    });
+
+    $("#songName").blur(function () {
+        typing = false;
+    });
 </script>
 <include href="view/footer.html"/>
