@@ -16,13 +16,13 @@ class User
     private $_mapping;
 
 
-
     /**
      * User constructor.
      * @param string $username
-     * @param string $password
      * @param string $name
      * @param string $email
+     * @param int $id
+     * @param string $mapping
      */
     function __construct($username = '', $name = '', $email = '', $id = 0, $mapping = 'q2w3er5t6y7ui9o0pzsxdcfv')
     {

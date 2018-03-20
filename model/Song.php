@@ -14,6 +14,7 @@ class Song
 
     /**
      * Song constructor.
+     * @param $id id in database
      * @param $name Name of song
      * @param $content The actual song
      */

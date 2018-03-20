@@ -129,23 +129,55 @@ class UserDB
      * @param $song The content of the song
      * @return bool Returns false if song is empty
      */
-    function saveSong($user, $song)
+    function saveSong($user, $name, $song)
     {
-        if(empty($song)){
-            return false;
+        if(empty($song) || $user == null){
+            return null;
         }
 
-        $sql = "INSERT INTO SONGS (userID, content) VALUES (:userID, :content)";
+        $sql = "INSERT INTO SONGS (userID, name, content) VALUES (:userID, :name, :content)";
 
         $stmt = $this->_dbh->prepare($sql);
 
         $userID = $user->getID();
 
         $stmt->bindParam(":userID", $userID);
+        $stmt->bindParam(":name", $name);
         $stmt->bindParam(":content", $song);
 
         $stmt->execute();
 
-        return true;
+        $songID = $this->_dbh->lastInsertId();
+
+        $song = new Song((int) $songID, $name, $song);
+
+        return $song;
+    }
+
+    /**
+     * Loads all of the User's songs.
+     * @param $user User
+     * @return array of song objects
+     */
+    function loadSongs($user)
+    {
+        $sql = "SELECT * FROM SONGS WHERE userID = :userID";
+
+        $stmt = $this->_dbh->prepare($sql);
+
+        $userID = $user->getID();
+
+        $stmt->bindParam("userID", $userID);
+
+        $stmt->execute();
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $songs = array();
+
+        foreach($results as $row){
+            $songs[] = new Song($row['id'], $row['name'], $row['content']);
+        }
+
+        return $songs;
     }
 }
