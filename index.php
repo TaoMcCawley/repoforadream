@@ -141,7 +141,7 @@ $f3->route('GET|POST /keyboard', function ($f3) {
     echo $template->render('view/mainBoard.html');
 });
 
-// This route saves songs to the database
+// This route saves songs to the database and returns the saved song
 $f3->route('POST /savesong', function ($f3) {
     $songContent = $_POST['song'];
     $name = $_POST['name'];

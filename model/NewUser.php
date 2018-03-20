@@ -153,6 +153,10 @@ class NewUser
         $this->_errors[$error] = $desc;
     }
 
+    /**
+     * Checks if the new user incorrectly entered information.
+     * @return bool if there are errors or not
+     */
     function hasErrors()
     {
         return !empty($this->_errors);
