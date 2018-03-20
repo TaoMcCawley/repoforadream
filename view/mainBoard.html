@@ -46,7 +46,7 @@
     $("button").mousedown(function () {
         var playedOctave = octave;
 		if(!($(this).attr('name') == octave)){
-		    playedOctave+=1;
+		    ++playedOctave;
 		}
         var className = $(this).attr('class');
 	    piano.play($(this).attr('value'), playedOctave);
