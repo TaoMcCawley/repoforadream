@@ -61,7 +61,7 @@ $(document).keydown(function (event) {
         key = String.fromCharCode(event.keyCode + 32);
     }
 
-    if (down[key] == null && !typing) {
+    if (down[key] == null && !typing && !event.shiftKey) {
         down[key] = true;
         $("#" + key).mousedown();
     }
