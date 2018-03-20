@@ -14,10 +14,11 @@
 <body>
 <!-- As a link -->
 <nav class="navbar navbar-light bg-light">
-	<a class="navbar-brand" href="#">Keyboard</a>
+	<a class="navbar-brand" href="{{@BASE}}/keyboard">Keyboard</a>
 	<div class="navbar-nav">
 		<check if="{{ !isset(@SESSION['user']) }}">
-			<a class="nav-item nav-link" href="{{@BASE}}/login">Login</a>
+			<true><a class="nav-item nav-link" href="{{@BASE}}/login">Login</a></true>
+			<false><a class="nav-item nav-link" href="{{@BASE}}/logout">Logout</a></false>
 		</check>
 	</div>
 </nav>
